@@ -297,5 +297,20 @@ MAKE TARGET ZCU102 COMPLETED
 Refer to https://github.com/Xilinx/Vitis-AI/blob/master/setup/mpsoc/VART/README.md#step2-setup-the-target for board setup.
 After that copy all the files in target_zcu102 directory to SD card.
 Boot zcu102 from SD card.
+Run app_mt.py
 
+```
+root@xilinx-zcu102-2020_2:~# cd target_zcu102/
+root@xilinx-zcu102-2020_2:~/target_zcu102# ls
+app_mt.py  images  model_dir
+root@xilinx-zcu102-2020_2:~/target_zcu102# python3 app_mt.py
+Command line options:
+ --image_dir :  images
+ --threads   :  1
+ --model     :  model_dir/customcnn.xmodel
+Pre-processing 10000 images...
+Starting 1 threads...
+Throughput=3135.92 fps, total frames = 10000, time=3.1889 seconds
+Correct:980, Wrong:9020, Accuracy:0.0980
 
+```
