@@ -47,6 +47,8 @@ Copies the .xmodel and images to the ./target_zcu102 folder ready to be copied t
 Before running this part, we should setup Vitis-AI docker and activate vitis-ai-tensorflow2 anaconda environment.
 For more details, refer to the latest version of the Vitis AI User Guide (UG1414). 
 
+### Build and train model
+
 ```
 (vitis-ai-tensorflow2) Vitis-AI /workspace/myproj/tf2-mnist-end-to-end > python train.py 
 
@@ -110,6 +112,8 @@ loss: 0.043
 acc: 0.991
 ```
 
+### Quantize the floating-point model
+
 ```
 (vitis-ai-tensorflow2) Vitis-AI /workspace/myproj/tf2-mnist-end-to-end > python quantize.py 
 Load float model..
@@ -130,7 +134,26 @@ Run quantization..
 Saved quantized model as ./models/quantized_model.h5
 ```
 
-Here we just run finetuning once for demonstration. We will only used the quantized_model.h5 generated in last step for compiling.
+### Evaluate quantized model
+
+```
+(vitis-ai-tensorflow2) Vitis-AI /workspace/myproj/tf2-mnist-end-to-end > python eval_quantized.py 
+
+Load quantized model..
+WARNING:tensorflow:No training configuration found in the save file, so the model was *not* compiled. Compile it manually.
+
+Load Mnist dataset..
+
+Compile model..
+
+Evaluate model on test Dataset
+157/157 [==============================] - 4s 22ms/step - loss: 0.0417 - accuracy: 0.9913
+loss: 0.042
+acc: 0.991
+```
+### Finetuning
+Here we just run finetuning once for demonstration. For further compiling we just used quantized_model.h5 generated before.
+
 ```
 (vitis-ai-tensorflow2) Vitis-AI /workspace/myproj/tf2-mnist-end-to-end > python finetune.py 
 
@@ -175,6 +198,8 @@ loss: 0.068
 acc: 0.992
 
 ```
+
+### Compile into DPU model file
 
 ```
 (vitis-ai-tensorflow2) Vitis-AI /workspace/myproj/tf2-mnist-end-to-end > bash -x compile.sh 
@@ -223,6 +248,8 @@ MODEL COMPILED
 -----------------------------------------
 
 ```
+
+### Make target directory
 
 ```
 (vitis-ai-tensorflow2) Vitis-AI /workspace/myproj/tf2-mnist-end-to-end > bash -x make_target.sh 
