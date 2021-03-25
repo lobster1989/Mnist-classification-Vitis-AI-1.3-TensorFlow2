@@ -109,6 +109,7 @@ Evaluate model on test dataset..
 loss: 0.043
 acc: 0.991
 ```
+
 ```
 (vitis-ai-tensorflow2) Vitis-AI /workspace/myproj/tf2-mnist-end-to-end > python quantize.py 
 Load float model..
@@ -127,9 +128,8 @@ Run quantization..
 [INFO] Generating Quantized Model Done.
 
 Saved quantized model as ./models/quantized_model.h5
-
-
 ```
+
 Here we just run finetuning once for demonstration. We will only used the quantized_model.h5 generated in last step for compiling.
 ```
 (vitis-ai-tensorflow2) Vitis-AI /workspace/myproj/tf2-mnist-end-to-end > python finetune.py 
@@ -175,7 +175,7 @@ loss: 0.068
 acc: 0.992
 
 ```
-Compile the quantized model with vai_c_tensorflow2
+
 ```
 (vitis-ai-tensorflow2) Vitis-AI /workspace/myproj/tf2-mnist-end-to-end > bash -x compile.sh 
 + ARCH=/opt/vitis_ai/compiler/arch/DPUCZDX8G/ZCU102/arch.json
@@ -223,7 +223,7 @@ MODEL COMPILED
 -----------------------------------------
 
 ```
-Make target files for running on ZCU102
+
 ```
 (vitis-ai-tensorflow2) Vitis-AI /workspace/myproj/tf2-mnist-end-to-end > bash -x make_target.sh 
 + echo -----------------------------------------
@@ -266,8 +266,9 @@ MAKE TARGET ZCU102 COMPLETED
 
 ```
 
-
 ## Run on zcu102
 Refer to https://github.com/Xilinx/Vitis-AI/blob/master/setup/mpsoc/VART/README.md#step2-setup-the-target for board setup.
 After that copy all the files in target_zcu102 directory to SD card.
+Boot zcu102 from SD card.
+
 
