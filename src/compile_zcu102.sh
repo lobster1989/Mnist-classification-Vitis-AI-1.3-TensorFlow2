@@ -1,9 +1,8 @@
 
 ARCH=/opt/vitis_ai/compiler/arch/DPUCZDX8G/ZCU102/arch.json
-OUTDIR=./compiled_model
+OUTDIR=./compiled_model/zcu102
 NET_NAME=customcnn
-#MODEL=./models/quantized_model.h5
-MODEL=./models/finetuned_model.h5
+MODEL=./models/quantized_model.h5
 
 echo "-----------------------------------------"
 echo "COMPILING MODEL FOR ZCU102.."

@@ -3,7 +3,7 @@ echo "MAKE TARGET ZCU102 STARTED.."
 echo "-----------------------------------------"
 
 TARGET_ZCU102=./target_zcu102
-COMPILE_ZCU102=./compiled_model 
+COMPILE_ZCU102=./compiled_model/zcu102 
 APP=./application
 NET_NAME=customcnn
 
