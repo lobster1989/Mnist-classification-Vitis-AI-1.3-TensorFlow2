@@ -1,5 +1,5 @@
 # Mnist-classification-Vitis-AI-1.3-TensorFlow2
-Vitis-AI 1.3 TensorFlow2 flow with a custom CNN model, targeted ZCU102 evaluation board.
+Vitis-AI 1.3 TensorFlow2 flow with a custom CNN model, targeted ZCU10X evaluation board.
 
 ## Introduction
 The project should be run in Vitis-AI 1.3 Docker, vitis-ai-tensorflow2 conda environment.Follow https://github.com/Xilinx/Vitis-AI to setup the environment before starting.
@@ -15,7 +15,7 @@ We will run the following steps:
 * Evaluation of the quantized model.
 * Apply finetuning to the trained model with a calibration dataset.
 * Compilation of both the quantized & finetuned model to create the .xmodel files ready for execution on the DPU accelerator IP.
-* Download and run the application on the ZCU102 evaluation board.
+* Download and run the application on the ZCU10X evaluation board.
 
 ## Python scripts
 *load_data.py*: 
@@ -37,11 +37,11 @@ Evaluate the quantized model.
 Model finetuning.
 
 ## Shell scripts
-*compile.sh*: 
-Launches the vai_c_tensorflow2 command to compile the quantized or finetuned model into an .xmodel file for the ZCU102 evaluation board
+*compile_zcu10x.sh*: 
+Launches the vai_c_tensorflow2 command to compile the quantized or finetuned model into an .xmodel file for the ZCU10x evaluation board
 
-*make_target.sh*: 
-Copies the .xmodel and images to the ./target_zcu102 folder ready to be copied to the ZCU102 evaluation board's SD card.
+*make_target_zcu10x.sh*: 
+Copies the .xmodel and images to the ./target_zcu10x folder ready to be copied to the ZCU10x evaluation board's SD card.
 
 ## Implement
 Before running this part, we should setup Vitis-AI docker and activate vitis-ai-tensorflow2 anaconda environment.
@@ -202,7 +202,7 @@ acc: 0.992
 ### Compile into DPU model file
 
 ```
-(vitis-ai-tensorflow2) Vitis-AI /workspace/myproj/tf2-mnist-end-to-end > bash -x compile.sh 
+(vitis-ai-tensorflow2) Vitis-AI /workspace/myproj/tf2-mnist-end-to-end > bash -x compile_zcu102.sh 
 + ARCH=/opt/vitis_ai/compiler/arch/DPUCZDX8G/ZCU102/arch.json
 + OUTDIR=./compiled_model
 + NET_NAME=customcnn
@@ -252,7 +252,7 @@ MODEL COMPILED
 ### Make target directory
 
 ```
-(vitis-ai-tensorflow2) Vitis-AI /workspace/myproj/tf2-mnist-end-to-end > bash -x make_target.sh 
+(vitis-ai-tensorflow2) Vitis-AI /workspace/myproj/tf2-mnist-end-to-end > bash -x make_target_zcu102.sh 
 + echo -----------------------------------------
 -----------------------------------------
 + echo 'MAKE TARGET ZCU102 STARTED..'
@@ -293,24 +293,21 @@ MAKE TARGET ZCU102 COMPLETED
 
 ```
 
-## Run on zcu102
+## Run on zcu10x 
+(The result is actually on zcu104, although we demonstrated with scripts targetting zcu102 in some prior steps)
 Refer to https://github.com/Xilinx/Vitis-AI/blob/master/setup/mpsoc/VART/README.md#step2-setup-the-target for board setup.
 After that copy all the files in target_zcu102 directory to SD card.
-Boot zcu102 from SD card.
+Boot zcu10x from SD card.
 Run app_mt.py
 
 ```
-root@xilinx-zcu102-2020_2:~# cd target_zcu102/
-root@xilinx-zcu102-2020_2:~/target_zcu102# ls
-app_mt.py  images  model_dir
-root@xilinx-zcu102-2020_2:~/target_zcu102# python3 app_mt.py
+root@xilinx-zcu104-2020_2:~/target_zcu104# python3 app_mt.py --threads 4
 Command line options:
  --image_dir :  images
- --threads   :  1
+ --threads   :  4
  --model     :  model_dir/customcnn.xmodel
 Pre-processing 10000 images...
-Starting 1 threads...
-Throughput=3135.92 fps, total frames = 10000, time=3.1889 seconds
-Correct:980, Wrong:9020, Accuracy:0.0980
-
+Starting 4 threads...
+Throughput=5622.61 fps, total frames = 10000, time=1.7785 seconds
+Correct:9913, Wrong:87, Accuracy:0.9913
 ```
